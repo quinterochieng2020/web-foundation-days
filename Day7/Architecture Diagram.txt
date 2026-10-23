@@ -1,0 +1,24 @@
+[ Clients (Mobile / Web App) ]
+                     |
+                     v
+             [ CDN (Cloudflare) ] ---- (Cached Photos / Thumbnails)
+                     |
+                     v
+           [ Load Balancer (LB) ]
+                     |
+         +-----------+-----------+
+         |                       |
+         v                       v
+  [ App Server 1 ]        [ App Server 2 ]
+         |                       |
+         +-----------+-----------+
+                     |
+         +-----------+-----------+---------+
+         |           |           |         |
+         v           v           v         v
+    [ Cache ]     [ DB Write ]  [ Queue ]  [ Object Storage ]
+    (Redis)      (Primary)      (Kafka)    (AWS S3 / GCS)
+                     |              |
+                     v              v
+               [ DB Read ]     [ Worker ]
+               (Replica)   (Thumbnail Gen)
